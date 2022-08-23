@@ -1,20 +1,15 @@
-import { useState } from 'react'
-import Icons from '../Icons/Icons'
+import { Icons } from 'src/components'
 import styles from './style.module.scss'
 import { FaListUl } from 'react-icons/fa'
 import logo from 'src/images/logo.png'
 
-const Sidebar = () => {
-
-    const [openedSidebar, setOpenedSidebar] = useState(false)
-    const [activePage, setActivePage] = useState(1)
-    console.log('~ setOpenedSidebar', setOpenedSidebar)
+const Sidebar = ({ sidebarOpened, activePage, setSidebarOpened }: any) => {
 
     return (
-        <aside className={`${styles.sidebar} ${openedSidebar ? styles.opened : ''}`}>
+        <aside className={`${styles.sidebar} ${sidebarOpened ? styles.sidebar_opened : ''}`}>
 
             <div>
-                <div className={styles.menu}>
+                <div className={styles.menu} onClick={() => { setSidebarOpened(!sidebarOpened) }}>
                     <FaListUl />
                 </div>
                 <div className={styles.logo}>

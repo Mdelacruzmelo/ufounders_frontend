@@ -36,7 +36,6 @@ const Icons = ({ type }: IconProps) => {
                         </g>
                     </g>
                 </svg>
-
             )
         case 3:
             return (
@@ -74,7 +73,6 @@ const Icons = ({ type }: IconProps) => {
                         <path className={`${styles.fillNone} ${styles.strokeLinecap} ${styles.strokeWidth1}`} d="M27,0H.85V-25.9" transform="translate(98.5 401.5)" />
                     </g>
                 </svg>
-
             )
         case 5:
             return (
@@ -95,7 +93,6 @@ const Icons = ({ type }: IconProps) => {
                         <circle className={styles.black} cx="1" cy="1" r="1" transform="translate(119 491)" />
                     </g>
                 </svg>
-
             )
         case 6:
             return (
@@ -112,7 +109,15 @@ const Icons = ({ type }: IconProps) => {
                         </text>
                     </g>
                 </svg>
-
+            )
+        case 7:
+            return (
+                <svg xmlns="http://www.w3.org/2000/svg" width="88" height="88" viewBox="0 0 88 88">
+                    <g transform="translate(-719 -246)">
+                        <rect className={styles.white} width="88" height="88" transform="translate(719 246)" />
+                        <path className={styles.ticketColor} d="M30.783,49.073a10.192,10.192,0,0,1-5.7-1.621,10.173,10.173,0,0,1-2.705-2.934c-.722-1.073-1.244-1.847-2.481-1.847-1.222,0-1.68.758-2.314,1.807A9.008,9.008,0,0,1,15,47.453a10.2,10.2,0,0,1-5.747,1.621A10.012,10.012,0,0,1,8,49a6.007,6.007,0,0,1-6-6V35h8a2,2,0,1,0,0-4H2V9a9.01,9.01,0,0,1,9-9c.007,0,.066,0,.168,0a7.725,7.725,0,0,1,4.177,1.362,6.844,6.844,0,0,1,2,2.506C18,5.035,18.562,6.043,19.9,6.043s1.874-.993,2.513-2.143a6.711,6.711,0,0,1,2.038-2.537A8.239,8.239,0,0,1,28.82,0C28.933,0,29,0,29,0a9.01,9.01,0,0,1,9,9V31H30a2,2,0,1,0,0,4h8v8a6.007,6.007,0,0,1-6,6A9.361,9.361,0,0,1,30.783,49.073ZM18,31a2,2,0,0,0,0,4h4a2,2,0,0,0,0-4Z" transform="translate(743 265)" />
+                    </g>
+                </svg>
             )
         default:
             return null;

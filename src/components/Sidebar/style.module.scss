@@ -13,7 +13,11 @@
     overflow: hidden;
     @extend .transition;
 
-    &.opened {
+    &:hover {
+        border-right: 1px solid lightgrey;
+    }
+
+    &.sidebar_opened {
         width: 190px;
     }
 
@@ -34,7 +38,7 @@
     /* LOGO */
     .logo {
         img {
-            width: 80%;
+            width: 45px;
             margin-left: 10%;
             margin-top: 50px;
             cursor: pointer;
