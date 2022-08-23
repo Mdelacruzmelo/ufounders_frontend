@@ -1,7 +1,7 @@
 import React from 'react'
 import { Client } from 'src/constants/types'
 
-export interface Props {
+interface Props {
     client: Client
 }
 

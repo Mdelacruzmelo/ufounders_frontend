@@ -5,13 +5,11 @@ import 'src/styles/pages/Clients.scss'
 
 const Clients = () => {
 
-    const [openedSidebar, setOpenedSidebar] = useState()
-
     return (
         <div className='page'>
-            <aside className={`${openedSidebar ? 'opened' : 'closed'}`}>
-                <Sidebar setOpenedSidebar={setOpenedSidebar} />
-            </aside>
+            
+                <Sidebar />
+           
             <main>
                 <Header />
                 <div className='clients_list'>

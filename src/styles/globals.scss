@@ -9,3 +9,16 @@ body {
     margin: 0px;
     padding: 0px;
 }
+
+.page {
+    width: 100%;
+    background-color: purple;
+    width: 100%;
+    max-width: 1400px;
+    margin: auto auto;
+    height: 95vh;
+    overflow-y: scroll;
+    border-radius: 10px;
+    margin-top: 2.5vh;
+    overflow: hidden;
+}
