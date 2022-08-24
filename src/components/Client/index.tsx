@@ -1,9 +1,9 @@
 import React from 'react'
-import { Client } from 'src/constants/types'
 import FadeIn from 'react-fade-in'
 import { Icons } from 'src/components'
 import styles from './style.module.scss'
 import { AiOutlineEllipsis } from 'react-icons/ai'
+import { Client } from 'src/constants/types'
 
 interface Props {
     client: Client
