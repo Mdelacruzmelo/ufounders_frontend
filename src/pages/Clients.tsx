@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import FadeIn from 'react-fade-in'
-import { Header, Sidebar, Client, Details, Drawer } from 'src/components'
+import { Header, Sidebar, Client, Details, Modal } from 'src/components'
 import { clients } from '../services/data'
 import 'src/styles/pages/Clients.scss'
 
@@ -29,9 +29,9 @@ const Clients = () => {
             </FadeIn>
 
             {/* TODO: This visible must com from redux */}
-            <Drawer visible={true}>
+            <Modal visible={true}>
                 <Details />
-            </Drawer>
+            </Modal>
         </>
     )
 }

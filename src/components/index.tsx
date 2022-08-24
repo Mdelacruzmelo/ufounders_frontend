@@ -2,7 +2,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import Client from "./Client";
 import Icons from "./Icons";
-import Drawer from "./Drawer";
+import Modal from "./Modal";
 import Details from "./Details";
 
 export {
@@ -11,5 +11,5 @@ export {
     Client,
     Icons,
     Details,
-    Drawer
+    Modal
 }

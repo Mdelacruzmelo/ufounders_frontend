@@ -1,6 +1,6 @@
 @import "src/styles/_variables.scss";
 
-.drawerOverlay {
+.modalOverlay {
     left: 0px;
     top: 0px;
     width: 0px;
@@ -15,7 +15,7 @@
 
         display: block;
 
-        .drawer {
+        .modal {
             position: absolute;
             left: 50%;
             top: 50%;
