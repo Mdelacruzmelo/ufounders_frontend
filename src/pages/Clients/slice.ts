@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Client } from 'src/constants/types'
 import { clients as dataClients } from 'src/services/data'
-import type { RootState } from 'src/store'
 
 interface ClientsState {
     list: Client[]
@@ -22,7 +21,5 @@ export const clientsSlice = createSlice({
 })
 
 export const { setClients } = clientsSlice.actions
-
-export const getClients = (state: RootState) => state.clients.list
 
 export default clientsSlice.reducer

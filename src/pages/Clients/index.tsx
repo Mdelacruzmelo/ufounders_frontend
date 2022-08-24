@@ -3,13 +3,14 @@ import FadeIn from 'react-fade-in'
 import { useAppSelector } from 'src/hooks/redux'
 import { Header, Sidebar, Client, Details, Modal } from 'src/components'
 import './Clients.scss'
+import { useGetClientsQuery } from './api'
 
 const Clients = () => {
 
     // TODO: PASAR A REDUX
+    const { data, isLoading } = useGetClientsQuery(null)
     const [sidebarOpened, setSidebarOpened] = useState(false)
     const [activePage, setActivePage] = useState(1)
-
     const { list } = useAppSelector((state) => state.clients)
 
     return (
