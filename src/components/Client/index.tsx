@@ -1,15 +1,23 @@
-import React from 'react'
+import { useAppDispatch } from 'src/hooks/redux'
 import FadeIn from 'react-fade-in'
+import { AiOutlineEllipsis } from 'react-icons/ai'
 import { Icons } from 'src/components'
 import styles from './style.module.scss'
-import { AiOutlineEllipsis } from 'react-icons/ai'
 import { Client } from 'src/constants/types'
+import { clientsApi } from 'src/pages/Clients/api'
+import { setClientDetails } from 'src/pages/Clients/slice';
+import { toogleVisible } from 'src/components/Modal/slice';
 
-interface Props {
-    client: Client
-}
+interface Props { client: Client }
 
 const ClientComponent = ({ client }: Props) => {
+
+    const dispatch = useAppDispatch()
+    const requestDetails = async (id: string) => {
+        const { data } = await dispatch(clientsApi.endpoints.getClientDetails.initiate(id))
+        dispatch(setClientDetails(data))
+        dispatch(toogleVisible(true))
+    }
 
     return (
         <FadeIn>
@@ -54,7 +62,9 @@ const ClientComponent = ({ client }: Props) => {
 
 
                 <div className={styles.right}>
-                    <div className={styles.actions}>
+                    <div
+                        className={styles.actions}
+                        onClick={() => { requestDetails(client._id) }}>
                         <AiOutlineEllipsis style={{ fontSize: '2rem' }} />
                     </div>
                 </div>

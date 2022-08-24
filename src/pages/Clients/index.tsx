@@ -11,18 +11,20 @@ import DataNotFound from './Components/DataNotFound';
 import Loading from './Components/Loading'
 import './Clients.scss'
 
-
 const Clients = () => {
 
     const refDispatch = useAppDispatch()
     const dispatch = useRef(refDispatch) // useEffect dependency fix
+
     const { data, isLoading } = useGetClientsQuery(null)
-    const [sidebarOpened, setSidebarOpened] = useState(false)
     const { list } = useAppSelector((state) => state.clients)
 
+    const [sidebarOpened, setSidebarOpened] = useState(false)
+
     useEffect(() => {
-        if (data && data.length > 0)
+        if (data && data.length > 0) {
             dispatch.current(setClients(data))
+        }
     }, [data])
 
     return (
@@ -40,14 +42,16 @@ const Clients = () => {
                         {!isLoading && list.length === 0 && <DataNotFound />}
                         {!isLoading && list.length > 0 && (
                             <div className='clients_list'>
-                                {list.map((client: ClientInterface, index: number) => <Client client={client} key={index} />)}
+                                {list.map((client: ClientInterface, index: number) => (
+                                    <Client client={client} key={index} />
+                                ))}
                             </div>
                         )}
                     </main>
                 </div>
             </FadeIn>
 
-            <Modal visible={false}>
+            <Modal>
                 <Details />
             </Modal>
         </>

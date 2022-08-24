@@ -9,6 +9,9 @@ export const clientsApi = createApi({
         getClients: builder.query({
             query: () => '/clients',
         }),
+        getClientDetails: builder.query({
+            query: (id) => `/clients/${id}`,
+        }),
     }),
 })
 
