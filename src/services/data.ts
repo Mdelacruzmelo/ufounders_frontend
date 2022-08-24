@@ -176,7 +176,7 @@ export const clients: Client[] = [
     }
 ]
 
-export const clientDetailss: ClientDetails[] =
+export const clientDetails: ClientDetails[] =
     [
         {
             "_id": "612f24359e1f0d6777dacd5b",
