@@ -1,70 +1,52 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useAppSelector, useAppDispatch } from 'src/hooks/redux'
 import FadeIn from 'react-fade-in'
-import { useAppSelector } from 'src/hooks/redux'
-import BarLoader from 'react-spinners/BarLoader'
-import { FaRegFolderOpen } from "react-icons/fa";
-import { Header, Sidebar, Client, Details, Modal } from 'src/components'
-import './Clients.scss'
+
 import { useGetClientsQuery } from './api'
+import { Header, Sidebar, Client, Details, Modal } from 'src/components'
+import { Client as ClientInterface } from 'src/constants/types';
+import { setClients } from './slice';
+
+import DataNotFound from './Components/DataNotFound';
+import Loading from './Components/Loading'
+import './Clients.scss'
+
 
 const Clients = () => {
 
-    // TODO: PASAR A REDUX
+    const refDispatch = useAppDispatch()
+    const dispatch = useRef(refDispatch) // useEffect dependency fix
     const { data, isLoading } = useGetClientsQuery(null)
     const [sidebarOpened, setSidebarOpened] = useState(false)
-    const [activePage, setActivePage] = useState(1)
     const { list } = useAppSelector((state) => state.clients)
 
-    const Result = () => {
-
-        if (isLoading) {
-            return (
-                <div className="centered">
-                    <BarLoader color="#000000" loading={true} width={200} />
-                </div>
-            )
-        }
-        if (!isLoading && !data) {
-            return (
-                <div className="centered">
-                    <h1>
-                        <FaRegFolderOpen />
-                    </h1>
-                    <div>
-                        Data not found
-                    </div>
-                </div>
-            )
-        }
-
-        return (
-            <>
-                {list.map((client, index) => <Client client={client} key={index} />)}
-            </>
-        )
-
-    }
+    useEffect(() => {
+        if (data && data.length > 0)
+            dispatch.current(setClients(data))
+    }, [data])
 
     return (
         <>
             <FadeIn>
                 <div className='page'>
                     <Sidebar
-                        setActivePage={setActivePage}
                         sidebarOpened={sidebarOpened}
-                        activePage={activePage}
+                        activePage={1}
                         setSidebarOpened={setSidebarOpened}
                     />
                     <main className={`${sidebarOpened ? 'sidebar_opened' : ''} `}>
                         <Header />
-                        <div className='clients_list'>
-                            <Result />
-                        </div>
+                        {isLoading && <Loading />}
+                        {!isLoading && list.length === 0 && <DataNotFound />}
+                        {!isLoading && list.length > 0 && (
+                            <div className='clients_list'>
+                                {list.map((client: ClientInterface, index: number) => <Client client={client} key={index} />)}
+                            </div>
+                        )}
                     </main>
                 </div>
             </FadeIn>
 
-            {/* TODO: This visible must com from redux */}
             <Modal visible={false}>
                 <Details />
             </Modal>
