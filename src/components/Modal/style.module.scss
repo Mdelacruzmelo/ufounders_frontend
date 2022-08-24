@@ -1,0 +1,25 @@
+@import "src/styles/_variables.scss";
+
+.modalOverlay {
+    left: 0px;
+    top: 0px;
+    width: 0px;
+    height: 0px;
+    overflow: hidden;
+
+    &.visible {
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.37);
+        position: fixed;
+
+        display: block;
+
+        .modal {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
