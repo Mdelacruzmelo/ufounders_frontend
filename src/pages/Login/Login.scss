@@ -1,0 +1,42 @@
+@import "src/styles/_variables.scss";
+
+.loginContainer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0px auto;
+    padding: 20px;
+    border-radius: 20px;
+
+    .inputForm {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+
+        label {
+            color: $grey;
+        }
+
+        input {
+            margin-top: 5px;
+            padding: 4px;
+            border: 1px solid $grey;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: none;
+            transition: 0.2s ease;
+            &:hover {
+                background-color: $black;
+                color: $white;
+            }
+        }
+    }
+}
