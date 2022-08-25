@@ -4,6 +4,7 @@ import styles from './style.module.scss'
 import { BiCloudUpload, BiCloudDownload } from "react-icons/bi";
 import { clientsApi } from 'src/pages/Clients/api';
 import { useAppDispatch } from 'src/hooks/redux';
+import { setClients } from 'src/pages/Clients/slice';
 
 const Header = ({ firstName = "Rodrigo" }: any) => {
 
@@ -11,9 +12,12 @@ const Header = ({ firstName = "Rodrigo" }: any) => {
 
     const seedDatabase = async () => {
         await dispatch(clientsApi.endpoints.seedDatabase.initiate(""))
+        const { data } = await dispatch(clientsApi.endpoints.getClients.initiate(""))
+        dispatch(setClients(data))
     }
     const truncateDatabase = async () => {
         await dispatch(clientsApi.endpoints.truncateDatabase.initiate(""))
+        dispatch(setClients([]))
     }
 
     return (
