@@ -12,6 +12,15 @@ export const clientsApi = createApi({
         getClientDetails: builder.query({
             query: (id) => `/clients/${id}`,
         }),
+        seedDatabase: builder.query({
+            query: () => `/seed`,
+        }),
+        truncateDatabase: builder.mutation({
+            query: () => ({
+                url: `/seed`,
+                method: 'DELETE'
+            }),
+        }),
     }),
 })
 
