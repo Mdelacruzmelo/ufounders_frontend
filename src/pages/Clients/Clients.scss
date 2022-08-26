@@ -5,6 +5,20 @@
     height: calc(100vh - calc($header-height + $header-margin-height + $bottom-distance));
     overflow-y: scroll;
     position: relative;
+
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: transitario;
+        border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: $black;
+        border-radius: 5px;
+    }
 }
 
 .centered {
@@ -15,11 +29,30 @@
     text-align: center;
     color: $grey;
 
-    h1{
-        opacity: .2;
+    h1 {
+        opacity: 0.2;
         font-size: 3rem;
         margin: 0px;
     }
+}
+
+.loadingScroll {
+    position: fixed;
+    background: white;
+    width: 200px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 9px 17px -5px #0000003d;
+}
+
+.infinite-scroll-component__outerdiv {
+    overflow: hidden !important;
 }
 
 ::-webkit-scrollbar {
@@ -32,6 +65,6 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: $black;
+    background: rgb(202, 202, 202);
     border-radius: 5px;
 }

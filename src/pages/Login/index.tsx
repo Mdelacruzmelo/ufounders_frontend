@@ -21,7 +21,7 @@ const Login = () => {
     const alertOptions: ToastOptions = {
         className: 'toast-alert',
         position: "top-right",
-        autoClose: 5000,
+        autoClose: 1000,
         hideProgressBar: true,
         closeOnClick: true,
         pauseOnHover: false,
@@ -58,7 +58,7 @@ const Login = () => {
         } else {
 
             // Success
-            const loginData = response?.data as any
+            const loginData = response?.data
 
             if (loginData?.token) {
 

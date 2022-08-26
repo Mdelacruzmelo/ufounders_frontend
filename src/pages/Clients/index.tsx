@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppSelector, useAppDispatch } from 'src/hooks/redux'
-import { toast, ToastOptions } from 'react-toastify';
-import FadeIn from 'react-fade-in'
-
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useGetClientsQuery } from './api'
 import { Header, Sidebar, Client, Details, Modal } from 'src/components'
 import { Client as ClientInterface } from 'src/constants/types';
@@ -11,61 +9,73 @@ import { setClients } from './slice';
 import DataNotFound from './Components/DataNotFound';
 import Loading from './Components/Loading'
 import './Clients.scss'
-import { alertOptions } from 'src/common'
-import { useNavigate } from 'react-router-dom';
 
 const Clients = () => {
 
-    const navigate = useNavigate()
-    const refDispatch = useAppDispatch()
-    const dispatch = useRef(refDispatch) // useEffect dependency fix
-    const { data, isLoading, error } = useGetClientsQuery(null)
+    // Redux state
+    const dispatch = useAppDispatch()
     const { list } = useAppSelector((state) => state.clients)
-    const [sidebarOpened, setSidebarOpened] = useState(false)
 
-    const dataError = error as any
+    const [page, setPage] = useState<number>(0)
+
+    // First request
+    const { data, isLoading, error } = useGetClientsQuery<any>({ limit: 30, offset: (page * 30) })
+
+    // Local state
+    const [sidebarOpened, setSidebarOpened] = useState(false)
 
     useEffect(() => {
 
-        if (data && data.length > 0) {
+        if (data?.list?.length > 0) {
 
-            dispatch.current(setClients(data))
+            dispatch(setClients({
+                list: list.concat(data?.list),
+                total: data.total
+            }))
 
-        } else if (!data && !isLoading && dataError) {
-
-            console.log('~ dataError', dataError)
-            toast.error(dataError?.data?.message, {
-                ...alertOptions,
-                className: 'toast-alert error'
-            })
-            navigate('/login')
+        } else if (!data && !isLoading && error) {
+            console.error(error)
         }
 
-    }, [data, dataError, isLoading, navigate])
+    }, [data])
 
     return (
+
         <>
-            <FadeIn>
 
-                <div className='page'>
+            <div className='page'>
 
-                    <Sidebar
-                        sidebarOpened={sidebarOpened}
-                        activePage={1}
-                        setSidebarOpened={setSidebarOpened}
-                    />
+                <Sidebar
+                    sidebarOpened={sidebarOpened}
+                    activePage={1}
+                    setSidebarOpened={setSidebarOpened}
+                />
 
-                    <main className={`${sidebarOpened ? 'sidebar_opened' : ''} `}>
+                <main className={`${sidebarOpened ? 'sidebar_opened' : ''} `}>
 
-                        <Header />
+                    <Header />
 
-                        {isLoading && <Loading />}
+                    {isLoading && <Loading />}
 
-                        {!isLoading && list?.length === 0 && <DataNotFound />}
+                    {!isLoading && list?.length === 0 && <DataNotFound />}
 
-                        {!isLoading && list?.length > 0 && (
+                    {!isLoading && list?.length > 0 && (
 
-                            <div className='clients_list'>
+                        <div id="clients_list" className='clients_list'>
+                            <InfiniteScroll
+                                dataLength={list.length} //This is important field to render the next data
+                                next={() => { setPage(page + 1) }}
+                                hasMore={true}
+                                loader={
+                                    <Loading />
+                                }
+                                endMessage={
+                                    <p style={{ textAlign: 'center' }}>
+                                        <b>Yay! You have seen it all</b>
+                                    </p>
+                                }
+                                refreshFunction={() => { }}
+                                scrollableTarget="clients_list">
 
                                 {list?.map((client: ClientInterface, index: number) => (
 
@@ -73,15 +83,15 @@ const Clients = () => {
 
                                 ))}
 
-                            </div>
+                            </InfiniteScroll>
 
-                        )}
+                        </div>
 
-                    </main>
+                    )}
 
-                </div>
+                </main>
 
-            </FadeIn>
+            </div>
 
             <Modal><Details /></Modal>
 

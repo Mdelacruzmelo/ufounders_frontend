@@ -3,20 +3,23 @@ import { Client, ClientDetails } from 'src/constants/types'
 
 interface ClientsState {
     list: Client[]
-    clientDetails?: ClientDetails
+    clientDetails?: ClientDetails,
+    total: number
 }
 
 const initialState: ClientsState = {
     list: [],
-    clientDetails: undefined
+    clientDetails: undefined,
+    total: 0
 }
 
 export const clientsSlice = createSlice({
     name: 'clients',
     initialState,
     reducers: {
-        setClients: (state, action: PayloadAction<Client[]>) => {
-            state.list = action.payload
+        setClients: (state, action: PayloadAction<any>) => {
+            state.list = action.payload.list
+            state.total = action.payload.total
         },
         setClientDetails: (state, action: PayloadAction<ClientDetails>) => {
             state.clientDetails = action.payload

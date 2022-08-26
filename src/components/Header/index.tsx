@@ -10,21 +10,26 @@ const Header = () => {
 
     const dispatch = useAppDispatch()
     const { username } = useAppSelector(state => state.login)
+    const { total } = useAppSelector((state) => state.clients)
 
     const seedDatabase = async () => {
 
         await dispatch(clientsApi.endpoints.seedDatabase.initiate(""))
 
-        const { data } = await dispatch(clientsApi.endpoints.getClients.initiate(""))
+        const { data } = await dispatch(
+            clientsApi.endpoints.getClients.initiate({ limit: 30, offset: 0 })
+        )
 
         dispatch(setClients(data))
     }
 
     const truncateDatabase = async () => {
 
-        await dispatch(clientsApi.endpoints.truncateDatabase.initiate(""))
+        await dispatch(
+            clientsApi.endpoints.truncateDatabase.initiate(null)
+        )
 
-        dispatch(setClients([]))
+        dispatch(setClients({ list: [], total: 0 }))
     }
 
     return (
@@ -43,7 +48,7 @@ const Header = () => {
                         </button>
                     </div>
                 </h1>
-                <h3>Estas son las personas que han comprado entradas</h3>
+                <h3>Estas son las {total} personas que han comprado entradas</h3>
             </div>
         </FadeIn>
     )
