@@ -22,7 +22,7 @@ const Clients = () => {
     const { data, isLoading, error } = useGetClientsQuery<any>({ limit: 30, offset: (page * 30) })
 
     // Local state
-    const [sidebarOpened, setSidebarOpened] = useState(false)
+    const { opened: sidebarOpened } = useAppSelector(state => state.sidebar)
 
     useEffect(() => {
 
@@ -45,11 +45,7 @@ const Clients = () => {
 
             <div className='page'>
 
-                <Sidebar
-                    sidebarOpened={sidebarOpened}
-                    activePage={1}
-                    setSidebarOpened={setSidebarOpened}
-                />
+                <Sidebar />
 
                 <main className={`${sidebarOpened ? 'sidebar_opened' : ''} `}>
 
