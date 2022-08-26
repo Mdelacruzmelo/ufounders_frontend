@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import FadeIn from 'react-fade-in';
-import { useNavigate } from "react-router-dom";
-import './Login.scss'
-import { ToastContainer, toast, ToastOptions } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { BiLogInCircle } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import FadeIn from 'react-fade-in';
+import { toast, ToastOptions } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { useAppDispatch } from 'src/hooks/redux'
+import { setUser } from './slice';
+
 import { loginApi } from './api';
+import './Login.scss'
 
 const Login = () => {
 
@@ -31,26 +34,53 @@ const Login = () => {
         const response: any = await dispatch(loginApi.endpoints.login.initiate({ email, password }))
         const error = response?.error?.data?.message
 
-        if (Array.isArray(error)) {
-            error.forEach((element: string) => {
-                toast.error(element, { ...alertOptions, className: 'toast-alert error' })
-            });
+        if (error) {
+
+            // Alert error in redux
+            if (Array.isArray(error)) {
+
+                // Alert
+                toast.error(error[0], {
+                    ...alertOptions,
+                    className: 'toast-alert success'
+                })
+
+            } else {
+
+                // Alert
+                toast.error(error, {
+                    ...alertOptions,
+                    className: 'toast-alert success'
+                })
+
+            }
+
         } else {
-            toast.error(error, { ...alertOptions, className: 'toast-alert error' });
-        }
 
-        const token = response?.data?.token
-        if (token) {
-            console.log('~ process.env.STORAGE_KEY', process.env.STORAGE_KEY)
-            toast.success("Authenticated", { ...alertOptions, className: 'toast-alert success' })
-            localStorage.setItem(`${process.env.REACT_APP_STORAGE_KEY}`, token)
-            navigate("/");
-        }
+            // Success
+            const loginData = response?.data
 
+            if (loginData?.token) {
+
+                // Redux user
+                dispatch(setUser(loginData.user))
+
+                // Local storage
+                localStorage.setItem(`${process.env.REACT_APP_STORAGE_KEY}`, loginData.token)
+
+                // Alert
+                toast.success("Authenticated", { ...alertOptions, className: 'toast-alert success' })
+
+                // Redirect
+                navigate("/");
+
+            }
+        }
     }
 
     return (
         <FadeIn>
+
             <div className='page'>
 
                 <div className='loginContainer'>
@@ -81,7 +111,7 @@ const Login = () => {
 
                 </div>
             </div>
-            <ToastContainer newestOnTop={true} />
+
         </FadeIn>
     )
 }
