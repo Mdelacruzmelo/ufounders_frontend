@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { BiLogInCircle } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import FadeIn from 'react-fade-in';
-import { toast, ToastOptions } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { useAppDispatch } from 'src/hooks/redux'
@@ -10,6 +10,7 @@ import { setUser } from './slice';
 
 import { loginApi } from './api';
 import './Login.scss'
+import { alertOptions } from 'src/common';
 
 const Login = () => {
 
@@ -17,17 +18,6 @@ const Login = () => {
     const dispatch = useAppDispatch()
     const [email, setEmail] = useState<string>("rodrigo@gmail.com")
     const [password, setPassword] = useState<string>("123456")
-
-    const alertOptions: ToastOptions = {
-        className: 'toast-alert',
-        position: "top-right",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: 'colored'
-    }
 
     const login = async () => {
 

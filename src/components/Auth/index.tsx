@@ -29,6 +29,7 @@ const Auth = ({ children }: any) => {
 
         }
 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [response])
 
     if (response.isLoading) return (<Loading />)
