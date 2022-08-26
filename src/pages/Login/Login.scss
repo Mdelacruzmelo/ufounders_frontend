@@ -18,25 +18,43 @@
 
         label {
             color: $grey;
+            cursor: pointer;
         }
 
         input {
             margin-top: 5px;
-            padding: 4px;
+            padding: 10px;
             border: 1px solid $grey;
             border-radius: 4px;
+            font-size: 1rem;
         }
 
         button {
-            padding: 5px;
+            font-size: 1rem;
+            padding: 10px 90px;
             border-radius: 4px;
             cursor: pointer;
             border: none;
             transition: 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             &:hover {
                 background-color: $black;
                 color: $white;
             }
         }
+    }
+}
+
+.toast-alert {
+    top: 40px;
+    right: 85%;
+
+    &.success {
+        background-color: $hardgreen !important;
+    }
+    &.error {
+        background-color: $red !important;
     }
 }

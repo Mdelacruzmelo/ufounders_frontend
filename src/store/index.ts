@@ -1,16 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import clientsReducer from 'src/pages/Clients/slice'
-import loginReducer from 'src/pages/Login/slice'
-import { clientsApi } from 'src/pages/Clients/api'
 import modalReducer from 'src/components/Modal/slice'
+import clientsReducer from 'src/pages/Clients/slice'
+import { clientsApi } from 'src/pages/Clients/api'
+import loginReducer from 'src/pages/Login/slice'
+import { loginApi } from 'src/pages/Login/api'
 
 export const store = configureStore({
     reducer: {
         clients: clientsReducer,
         [clientsApi.reducerPath]: clientsApi.reducer,
         modal: modalReducer,
-        login: loginReducer
+        login: loginReducer,
+        [loginApi.reducerPath]: loginApi.reducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(clientsApi.middleware),
