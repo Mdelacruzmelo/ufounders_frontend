@@ -1,32 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import FadeIn from 'react-fade-in'
-import styles from './style.module.scss'
+import BarLoader from 'react-spinners/BarLoader'
 import { BiCloudUpload, BiCloudDownload } from "react-icons/bi";
-import { clientsApi } from 'src/pages/Clients/api';
+import { endpoints } from 'src/pages/Clients/api';
 import { useAppDispatch, useAppSelector } from 'src/hooks/redux';
 import { setClients } from 'src/pages/Clients/slice';
+import styles from './style.module.scss'
 
 const Header = () => {
+
+    const { seedDatabase, truncateDatabase } = endpoints
 
     const dispatch = useAppDispatch()
     const { username } = useAppSelector(state => state.login)
     const { total } = useAppSelector((state) => state.clients)
+    const [loadingSeed, setLoadingSeed] = useState(false)
 
-    const seedDatabase = async () => {
+    const handleSeed = async () => {
 
-        await dispatch(clientsApi.endpoints.seedDatabase.initiate(""))
-
-        const { data } = await dispatch(
-            clientsApi.endpoints.getClients.initiate({ limit: 30, offset: 0 })
-        )
-
-        dispatch(setClients(data))
+        setLoadingSeed(true)
+        await dispatch<any>(seedDatabase.initiate(null))
+        setLoadingSeed(false)
     }
 
-    const truncateDatabase = async () => {
+    const handleTruncate = async () => {
 
         await dispatch(
-            clientsApi.endpoints.truncateDatabase.initiate(null)
+            truncateDatabase.initiate(
+                { subscribe: false, forceRefetch: true }
+            )
         )
 
         dispatch(setClients({ list: [], total: 0 }))
@@ -34,21 +36,31 @@ const Header = () => {
 
     return (
         <FadeIn>
+
             <div className={styles.header}>
+
                 <h1>
+
                     Bienvenido de nuevo, {username}. 👋
+
                     <div className={styles.seedButton}>
-                        <button onClick={seedDatabase}>
+
+                        <button onClick={handleSeed}>
                             <BiCloudUpload />
-                            <div>Seed database</div>
+                            {loadingSeed && <BarLoader color="#000000" loading={true} width={200} />}
+                            {!loadingSeed && <div>Seed database</div>}
                         </button>
-                        <button onClick={truncateDatabase}>
+
+                        <button onClick={handleTruncate}>
                             <BiCloudDownload />
                             <div>Truncate database</div>
                         </button>
+
                     </div>
                 </h1>
+
                 <h3>Estas son las {total} personas que han comprado entradas</h3>
+
             </div>
         </FadeIn>
     )

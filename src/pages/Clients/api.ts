@@ -45,4 +45,4 @@ export const clientsApi = createApi({
     }),
 })
 
-export const { useGetClientsQuery } = clientsApi
+export const { useGetClientsQuery, endpoints } = clientsApi
