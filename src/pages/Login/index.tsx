@@ -58,12 +58,12 @@ const Login = () => {
         } else {
 
             // Success
-            const loginData = response?.data
+            const loginData = response?.data as any
 
             if (loginData?.token) {
 
                 // Redux user
-                dispatch(setUser(loginData.user))
+                dispatch(setUser({ email: loginData.user.email, username: loginData.user.username }))
 
                 // Local storage
                 localStorage.setItem(`${process.env.REACT_APP_STORAGE_KEY}`, loginData.token)
