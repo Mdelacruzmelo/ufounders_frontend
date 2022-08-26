@@ -1,24 +1,12 @@
-import React from 'react'
 import { Icons } from 'src/components'
 import styles from './style.module.scss'
-import { AiOutlineCloseCircle } from "react-icons/ai";
+import { useAppSelector } from 'src/hooks/redux'
 
 const Details = () => {
 
-    // This must be in redux
-    const details = {
-        "_id": "612f24359e1f0d6777dacd5b",
-        "ticket": 0,
-        "present": true,
-        "firstName": "Sasha",
-        "lastName": "Nixon",
-        "birthdate": "2/6/1973",
-        "email": "sashanixon@polarium.com",
-        "phone": "(806) 468-2961",
-        "address": "729 Gilmore Court, Cartwright, Delaware"
-    }
-
-
+    const { clientDetails: details } = useAppSelector((state) => state.clients)
+    if (!details) return null;
+    
     return (
         <div className={styles.detailsContainer}>
 
@@ -35,10 +23,6 @@ const Details = () => {
                         </span>
                     </div>
                 </div>
-
-                <button className={styles.closeButton}>
-                    <AiOutlineCloseCircle />
-                </button>
 
             </div>
 

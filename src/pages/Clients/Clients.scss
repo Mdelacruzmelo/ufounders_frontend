@@ -4,6 +4,22 @@
     width: 100%;
     height: calc(100vh - calc($header-height + $header-margin-height + $bottom-distance));
     overflow-y: scroll;
+    position: relative;
+}
+
+.centered {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: $grey;
+
+    h1{
+        opacity: .2;
+        font-size: 3rem;
+        margin: 0px;
+    }
 }
 
 ::-webkit-scrollbar {

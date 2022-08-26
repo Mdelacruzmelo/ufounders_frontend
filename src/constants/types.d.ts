@@ -14,3 +14,7 @@ export interface ClientDetails extends Client {
     phone: string;
     address: string;
 }
+
+export interface User {
+    username: string,
+}
