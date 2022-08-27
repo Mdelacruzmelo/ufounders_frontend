@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import FadeIn from 'react-fade-in'
 import BarLoader from 'react-spinners/BarLoader'
 import { BiCloudUpload, BiCloudDownload } from "react-icons/bi";
@@ -9,7 +9,7 @@ import { setClients } from 'src/pages/Clients/slice';
 
 const Header = () => {
 
-    const { getClients, seedDatabase, truncateDatabase } = endpoints
+    const { seedDatabase, truncateDatabase } = endpoints
 
     const dispatch = useAppDispatch()
     const { username } = useAppSelector(state => state.login)
@@ -36,8 +36,8 @@ const Header = () => {
 
         const truncateResponse = await dispatch<any>(truncateDatabase.initiate(null))
 
-        if (truncateResponse) {
-            dispatch(setClients(truncateResponse))
+        if (truncateResponse?.data) {
+            dispatch(setClients(truncateResponse?.data))
         }
 
         setLoadingTruncate(false)
