@@ -16,15 +16,18 @@ export const clientsApi = createApi({
 
     }),
 
+    tagTypes: ['Clients'],
+
     endpoints: (builder) => ({
 
         getClients: builder.query({
-            query: ({ limit = 10, offset = 0 }) => {
+            query: ({ limit = 30, offset = 0 }) => {
                 return {
                     url: `/clients?limit=${limit}&offset=${offset}`,
                     method: 'GET',
                 }
             },
+            providesTags: ['Clients'],
         }),
 
         getClientDetails: builder.query({
@@ -32,7 +35,11 @@ export const clientsApi = createApi({
         }),
 
         seedDatabase: builder.query({
-            query: () => `/seed`,
+            query: () => ({
+                url: `/seed`,
+                method: 'GET'
+            }),
+            providesTags: ['Clients'],
         }),
 
         truncateDatabase: builder.mutation({
@@ -40,7 +47,9 @@ export const clientsApi = createApi({
                 url: `/seed`,
                 method: 'DELETE'
             }),
+            invalidatesTags: ['Clients']
         }),
+
 
     }),
 })
