@@ -1,10 +1,10 @@
-
+import { FC, PropsWithChildren } from 'react'
 import styles from './style.module.scss'
 import { useAppSelector, useAppDispatch } from 'src/hooks/redux'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { toogleVisible } from './slice'
 
-const Modal: React.FunctionComponent = ({ children }: any) => {
+const Modal: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch()
   const { visible } = useAppSelector((state) => state.modal)
 

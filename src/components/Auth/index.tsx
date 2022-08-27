@@ -22,6 +22,7 @@ const Auth: FC<PropsWithChildren> = ({ children }) => {
       navigate('/login')
     } else if (response?.error !== undefined) {
       console.error(response?.error)
+      navigate('/login')
     }
   }, [response])
 
