@@ -1,46 +1,40 @@
 import { useEffect, useState } from 'react'
 import { useAppSelector, useAppDispatch } from 'src/hooks/redux'
-import InfiniteScroll from 'react-infinite-scroll-component';
+import InfiniteScroll from 'react-infinite-scroll-component'
 import { useGetClientsQuery } from './api'
 import { Header, Sidebar, Client, Details, Modal } from 'src/components'
-import { Client as ClientInterface } from 'src/constants/types';
-import { setClients } from './slice';
+import { Client as ClientInterface } from 'src/constants/types'
+import { setClients } from './slice'
 
-import DataNotFound from './Components/DataNotFound';
+import DataNotFound from './Components/DataNotFound'
 import Loading from './Components/Loading'
 import './Clients.scss'
 
-const Clients = () => {
+const Clients: React.FunctionComponent = () => {
+  // Redux state
+  const dispatch = useAppDispatch()
+  const { list } = useAppSelector((state) => state.clients)
 
-    // Redux state
-    const dispatch = useAppDispatch()
-    const { list } = useAppSelector((state) => state.clients)
+  const [page, setPage] = useState<number>(0)
 
-    const [page, setPage] = useState<number>(0)
+  // First request
+  const { data, isLoading, error } = useGetClientsQuery<any>({ limit: 30, offset: (page * 30) })
 
-    // First request
-    const { data, isLoading, error } = useGetClientsQuery<any>({ limit: 30, offset: (page * 30) })
+  // Local state
+  const { opened: sidebarOpened } = useAppSelector(state => state.sidebar)
 
-    // Local state
-    const { opened: sidebarOpened } = useAppSelector(state => state.sidebar)
+  useEffect(() => {
+    if (data?.list?.length > 0) {
+      dispatch(setClients({
+        list: list.concat(data?.list),
+        total: data.total
+      }))
+    } else if (data !== undefined && isLoading === false && error !== undefined) {
+      console.error(error)
+    }
+  }, [data])
 
-    useEffect(() => {
-
-        if (data?.list?.length > 0) {
-
-            dispatch(setClients({
-                list: list.concat(data?.list),
-                total: data.total
-            }))
-
-        } else if (!data && !isLoading && error) {
-            console.error(error)
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data])
-
-    return (
+  return (
 
         <>
 
@@ -52,15 +46,15 @@ const Clients = () => {
 
                     <Header />
 
-                    {isLoading && <Loading />}
+                    {isLoading === true && <Loading />}
 
-                    {!isLoading && list?.length === 0 && <DataNotFound />}
+                    {isLoading === false && list?.length === 0 && <DataNotFound />}
 
-                    {!isLoading && list?.length > 0 && (
+                    {isLoading === false && list?.length > 0 && (
 
                         <div id="clients_list" className='clients_list'>
                             <InfiniteScroll
-                                dataLength={list.length} //This is important field to render the next data
+                                dataLength={list.length} // This is important field to render the next data
                                 next={() => { setPage(page + 1) }}
                                 hasMore={true}
                                 loader={
@@ -93,7 +87,7 @@ const Clients = () => {
             <Modal><Details /></Modal>
 
         </>
-    )
+  )
 }
 
 export default Clients

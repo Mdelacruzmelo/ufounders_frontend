@@ -1,109 +1,99 @@
-import { useState } from 'react';
-import { BiLogInCircle } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
-import FadeIn from 'react-fade-in';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+import { useState } from 'react'
+import { BiLogInCircle } from 'react-icons/bi'
+import { useNavigate } from 'react-router-dom'
+import FadeIn from 'react-fade-in'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import { useAppDispatch } from 'src/hooks/redux'
-import { setUser } from './slice';
+import { setUser } from './slice'
 
-import { loginApi } from './api';
+import { loginApi } from './api'
 import './Login.scss'
-import { alertOptions } from 'src/common';
+import { alertOptions } from 'src/common'
 
-const Login = () => {
+const Login: React.FunctionComponent = () => {
+  const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const [email, setEmail] = useState<string>('rodrigo@gmail.com')
+  const [password, setPassword] = useState<string>('123456')
 
-    const navigate = useNavigate();
-    const dispatch = useAppDispatch()
-    const [email, setEmail] = useState<string>("rodrigo@gmail.com")
-    const [password, setPassword] = useState<string>("123456")
+  const login: Function = async () => {
+    const response: any = await dispatch(loginApi.endpoints.login.initiate({ email, password }))
+    const error = response?.error?.data?.message
 
-    const login = async () => {
+    if (error !== undefined) {
+      // Alert error in redux
+      if (Array.isArray(error)) {
+        // Alert
+        toast.error(error[0], {
+          ...alertOptions,
+          className: 'toast-alert success'
+        })
+      } else {
+        // Alert
+        toast.error(error, {
+          ...alertOptions,
+          className: 'toast-alert success'
+        })
+      }
+    } else {
+      // Success
+      const loginData = response?.data
 
-        const response: any = await dispatch(loginApi.endpoints.login.initiate({ email, password }))
-        const error = response?.error?.data?.message
+      if (loginData?.token !== undefined) {
+        // Redux user
+        dispatch(setUser({ email: loginData.user.email, username: loginData.user.username }))
 
-        if (error) {
+        // Local storage
+        localStorage.setItem(`${process.env.REACT_APP_STORAGE_KEY}`, loginData.token)
 
-            // Alert error in redux
-            if (Array.isArray(error)) {
+        // Alert
+        toast.success('Authenticated', { ...alertOptions, className: 'toast-alert success' })
 
-                // Alert
-                toast.error(error[0], {
-                    ...alertOptions,
-                    className: 'toast-alert success'
-                })
-
-            } else {
-
-                // Alert
-                toast.error(error, {
-                    ...alertOptions,
-                    className: 'toast-alert success'
-                })
-
-            }
-
-        } else {
-
-            // Success
-            const loginData = response?.data
-
-            if (loginData?.token) {
-
-                // Redux user
-                dispatch(setUser({ email: loginData.user.email, username: loginData.user.username }))
-
-                // Local storage
-                localStorage.setItem(`${process.env.REACT_APP_STORAGE_KEY}`, loginData.token)
-
-                // Alert
-                toast.success("Authenticated", { ...alertOptions, className: 'toast-alert success' })
-
-                // Redirect
-                navigate("/");
-
-            }
-        }
+        // Redirect
+        navigate('/')
+      }
     }
+  }
 
-    return (
-        <FadeIn>
+  return (
+    <FadeIn>
 
-            <div className='page'>
+      <div className='page'>
 
-                <div className='loginContainer'>
+        <div className='loginContainer'>
 
-                    <div className='inputForm'>
-                        <label htmlFor='user'>Username</label>
-                        <input
-                            id='user'
-                            type="text"
-                            value={email}
-                            onChange={({ target }) => { setEmail(target.value) }} />
-                    </div>
+          <div className='inputForm'>
+            <label htmlFor='user'>Username</label>
+            <input
+              id='user'
+              type="text"
+              value={email}
+              onChange={({ target }) => { setEmail(target.value) }} />
+          </div>
 
-                    <div className='inputForm'>
-                        <label htmlFor='pass'>Password</label>
-                        <input
-                            id='pass'
-                            type="password"
-                            value={password}
-                            onChange={({ target }) => { setPassword(target.value) }} />
-                    </div>
+          <div className='inputForm'>
+            <label htmlFor='pass'>Password</label>
+            <input
+              id='pass'
+              type="password"
+              value={password}
+              onChange={({ target }) => { setPassword(target.value) }} />
+          </div>
 
-                    <div className='inputForm'>
-                        <button onClick={login}>
-                            Login <BiLogInCircle />
-                        </button>
-                    </div>
+          <div className='inputForm'>
+            <button onClick={(): void => { login() }}>
+              Login <BiLogInCircle />
+            </button>
+          </div>
 
-                </div>
-            </div>
+        </div>
+      </div>
 
-        </FadeIn>
-    )
+    </FadeIn>
+  )
 }
 
 export default Login

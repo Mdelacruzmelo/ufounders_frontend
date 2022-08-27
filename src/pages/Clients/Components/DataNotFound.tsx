@@ -1,8 +1,8 @@
-import { FaRegFolderOpen } from "react-icons/fa";
+import { FaRegFolderOpen } from 'react-icons/fa'
 import '../Clients.scss'
 
-const DataNotFound = () => {
-    return (
+const DataNotFound: React.FunctionComponent = () => {
+  return (
 
         <div className="centered">
             <h1>
@@ -13,7 +13,7 @@ const DataNotFound = () => {
             </div>
         </div>
 
-    )
+  )
 }
 
 export default DataNotFound

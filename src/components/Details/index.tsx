@@ -2,12 +2,11 @@ import { Icons } from 'src/components'
 import styles from './style.module.scss'
 import { useAppSelector } from 'src/hooks/redux'
 
-const Details = () => {
+const Details: React.FunctionComponent = () => {
+  const { clientDetails: details } = useAppSelector((state) => state.clients)
+  if (details == null) return null
 
-    const { clientDetails: details } = useAppSelector((state) => state.clients)
-    if (!details) return null;
-    
-    return (
+  return (
         <div className={styles.detailsContainer}>
 
             <div className={styles.header}>
@@ -54,7 +53,7 @@ const Details = () => {
             </div>
 
         </div>
-    )
+  )
 }
 
-export default Details;
+export default Details

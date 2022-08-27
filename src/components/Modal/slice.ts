@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface ModalState {
-    visible: boolean
+  visible: boolean
 }
 
 const initialState: ModalState = {
-    visible: false
+  visible: false
 }
 
 export const modalSlice = createSlice({
-    name: 'modal',
-    initialState,
-    reducers: {
-        toogleVisible: (state, action: PayloadAction<boolean>) => {
-            state.visible = action.payload
-        }
+  name: 'modal',
+  initialState,
+  reducers: {
+    toogleVisible: (state, action: PayloadAction<boolean>) => {
+      state.visible = action.payload
     }
+  }
 })
 
 export const { toogleVisible } = modalSlice.actions

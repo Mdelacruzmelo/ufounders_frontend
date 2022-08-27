@@ -9,17 +9,17 @@ import { authApi } from 'src/components/Auth/api'
 import sidebarReducer from 'src/components/Sidebar/slice'
 
 export const store = configureStore({
-    reducer: {
-        clients: clientsReducer,
-        [clientsApi.reducerPath]: clientsApi.reducer,
-        modal: modalReducer,
-        login: loginReducer,
-        [loginApi.reducerPath]: loginApi.reducer,
-        [authApi.reducerPath]: authApi.reducer,
-        sidebar: sidebarReducer
-    },
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware().concat(clientsApi.middleware),
+  reducer: {
+    clients: clientsReducer,
+    [clientsApi.reducerPath]: clientsApi.reducer,
+    modal: modalReducer,
+    login: loginReducer,
+    [loginApi.reducerPath]: loginApi.reducer,
+    [authApi.reducerPath]: authApi.reducer,
+    sidebar: sidebarReducer
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(clientsApi.middleware)
 })
 
 export type RootState = ReturnType<typeof store.getState>

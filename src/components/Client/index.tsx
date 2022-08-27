@@ -4,21 +4,20 @@ import { Icons } from 'src/components'
 import styles from './style.module.scss'
 import { Client } from 'src/constants/types'
 import { clientsApi } from 'src/pages/Clients/api'
-import { setClientDetails } from 'src/pages/Clients/slice';
-import { toogleVisible } from 'src/components/Modal/slice';
+import { setClientDetails } from 'src/pages/Clients/slice'
+import { toogleVisible } from 'src/components/Modal/slice'
 
 interface Props { client: Client }
 
-const ClientComponent = ({ client }: Props) => {
+const ClientComponent: React.FunctionComponent<Props> = ({ client }: Props) => {
+  const dispatch = useAppDispatch()
+  const requestDetails: Function = async (id: string) => {
+    const { data } = await dispatch(clientsApi.endpoints.getClientDetails.initiate(id))
+    dispatch(setClientDetails(data))
+    dispatch(toogleVisible(true))
+  }
 
-    const dispatch = useAppDispatch()
-    const requestDetails = async (id: string) => {
-        const { data } = await dispatch(clientsApi.endpoints.getClientDetails.initiate(id))
-        dispatch(setClientDetails(data))
-        dispatch(toogleVisible(true))
-    }
-
-    return (
+  return (
         <>
 
             <div className={styles.client}>
@@ -36,7 +35,7 @@ const ClientComponent = ({ client }: Props) => {
                             {`${client.firstName} ${client.lastName}`}
                         </div>
                         <div>
-                            {client.present ? "Ha entrado" : "No ha entrado"}
+                            {client.present ? 'Ha entrado' : 'No ha entrado'}
                         </div>
                     </div>
 
@@ -59,7 +58,6 @@ const ClientComponent = ({ client }: Props) => {
                     </div>
                 </div>
 
-
                 <div className={styles.right}>
                     <div
                         className={styles.actions}
@@ -71,7 +69,7 @@ const ClientComponent = ({ client }: Props) => {
             </div>
 
         </>
-    )
+  )
 }
 
 export default ClientComponent

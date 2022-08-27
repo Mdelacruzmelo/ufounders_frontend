@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import { Icons } from 'src/components'
 import styles from './style.module.scss'
 import { FaListUl } from 'react-icons/fa'
@@ -5,24 +6,22 @@ import logo from 'src/images/logo.png'
 import { useAppDispatch, useAppSelector } from 'src/hooks/redux'
 import { toggleOpened } from './slice'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { BiLogOutCircle } from "react-icons/bi";
+import { BiLogOutCircle } from 'react-icons/bi'
 
+const Sidebar: React.FunctionComponent = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useAppDispatch()
+  const { opened } = useAppSelector(state => state.sidebar)
 
-const Sidebar = () => {
+  const activePage = (location.pathname === '/' ? 1 : 0)
 
-    const navigate = useNavigate()
-    const location = useLocation()
-    const dispatch = useAppDispatch()
-    const { opened } = useAppSelector(state => state.sidebar)
+  const logout: Function = () => {
+    localStorage.setItem(`${process.env.REACT_APP_STORAGE_KEY}`, '')
+    navigate('/login')
+  }
 
-    const activePage = (location.pathname === '/' ? 1 : 0)
-
-    const logout = () => {
-        localStorage.setItem(`${process.env.REACT_APP_STORAGE_KEY}`, "")
-        navigate('/login')
-    }
-
-    return (
+  return (
         <aside className={`${styles.sidebar} ${opened ? styles.sidebar_opened : ''}`}>
 
             <div>
@@ -69,12 +68,12 @@ const Sidebar = () => {
 
             <button
                 className={styles.logout}
-                onClick={logout}>
+                onClick={(): void => { logout() } }>
                 <BiLogOutCircle />
             </button>
 
         </aside>
-    )
+  )
 }
 
 export default Sidebar
