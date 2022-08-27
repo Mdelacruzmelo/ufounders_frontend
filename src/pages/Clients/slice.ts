@@ -35,7 +35,6 @@ export const clientsSlice = createSlice({
             .addMatcher(
                 clientsApi.endpoints.seedDatabase.matchFulfilled,
                 (state, action) => {
-                    console.log('~ action', action)
                     state = action.payload // backend answers with the same structure data
                 }
             ).addMatcher(
