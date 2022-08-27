@@ -17,4 +17,5 @@ export interface ClientDetails extends Client {
 
 export interface User {
     username: string,
+    email: string,
 }

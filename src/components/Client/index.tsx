@@ -1,5 +1,4 @@
 import { useAppDispatch } from 'src/hooks/redux'
-import FadeIn from 'react-fade-in'
 import { AiOutlineEllipsis } from 'react-icons/ai'
 import { Icons } from 'src/components'
 import styles from './style.module.scss'
@@ -20,7 +19,7 @@ const ClientComponent = ({ client }: Props) => {
     }
 
     return (
-        <FadeIn>
+        <>
 
             <div className={styles.client}>
 
@@ -69,8 +68,9 @@ const ClientComponent = ({ client }: Props) => {
                     </div>
                 </div>
 
+            </div>
 
-            </div> </FadeIn>
+        </>
     )
 }
 

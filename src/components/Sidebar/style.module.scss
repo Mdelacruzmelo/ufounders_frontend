@@ -5,12 +5,16 @@
 .sidebar {
     border-radius: 10px;
     width: 60px;
-    height: 100vh;
+    height: 100%;
     float: left;
     left: 0px;
     background-color: white;
     position: relative;
     overflow: hidden;
+    display: flex;
+    align-content: space-between;
+    flex-direction: column;
+    justify-content: space-between;
     @extend .transition;
 
     &:hover {
@@ -50,14 +54,16 @@
     }
 
     /* NAV */
-
+    nav {
+        display: block;
+    }
     ul {
         list-style: none;
-        top: 50%;
+        // top: 50%;
         width: 100%;
         padding: 0px;
-        position: absolute;
-        transform: translatey(-50%);
+        // position: absolute;
+        // transform: translatey(-50%);
         background-color: transparent;
 
         li {
@@ -85,6 +91,19 @@
             div {
                 margin-left: 10px;
             }
+        }
+    }
+
+    .logout {
+        width: 60px;
+        font-size: 1.5rem;
+        padding: 16px;
+        background-color: white;
+        border-radius: 10px;
+        border: none;
+        &:hover {
+            filter: invert(1);
+            cursor: pointer;
         }
     }
 }
